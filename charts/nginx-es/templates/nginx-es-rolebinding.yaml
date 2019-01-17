@@ -1,0 +1,22 @@
+################################
+## NGINX Role Binding
+#################################
+{{- if .Values.global.rbacEnabled }}
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "nginx.fullname" . }}-ingress-controller
+  labels:
+    tier: logging
+    chart: {{ template "nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "nginx.fullname" . }}-ingress-controller
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "nginx.fullname" . }}-ingress-controller
+    namespace: {{ .Release.Namespace }}
+{{- end }}

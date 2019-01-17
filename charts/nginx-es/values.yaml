@@ -1,0 +1,43 @@
+# Default values for nginx-es.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+images:
+  nginx:
+    repository: astronomerinc/ap-nginx
+    tag: 0.7.5
+    pullPolicy: IfNotPresent
+  defaultBackend:
+    repository: astronomerinc/ap-default-backend
+    tag: 0.7.5
+    pullPolicy: IfNotPresent
+
+forceNamespaceIsolation: true
+ingressClass: ~
+
+resources: {}
+#  limits:
+#   cpu: 100m
+#   memory: 128Mi
+#  requests:
+#   cpu: 100m
+#   memory: 128Mi
+
+# AntiAffinity can be "hard" or "soft"
+antiAffinity: "soft"
+
+## Dependent on cloud provider
+preserveSourceIP: false
+
+proxyConnectTimeout: 15
+proxyReadTimeout: 600
+proxySendTimeout: 600
+proxyBodySize: "512m"
+hstsIncludeSubdomains: false
+serverNameHashBucketSize: 256
+
+ports:
+  http: 80
+  https: 443
+  defaultBackendHTTP: 8080
+  healthz: 10254
+  metrics: 10254

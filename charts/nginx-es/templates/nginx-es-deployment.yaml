@@ -1,0 +1,89 @@
+################################
+## NGINX-Elasticsearch Deployment
+#################################
+kind: Deployment
+apiVersion: apps/v1beta2
+metadata:
+  name: {{ template "nginx.fullname" . }}
+  labels:
+    tier: logging
+    component: nginx-es
+    chart: {{ template "nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: logging
+      component: nginx-es
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        tier: logging
+        component: ingress-controller
+        release: {{ .Release.Name }}
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/nginx-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ template "nginx.fullname" . }}-ingress-controller
+      containers:
+        - name: {{ .Release.Name }}-nginx-es
+          image: {{ template "nginx.image" . }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          args:
+            - /nginx-ingress-controller
+            - --default-backend-service={{ .Release.Namespace }}/{{ template "nginx.fullname" . }}-default-backend
+            - --configmap={{ .Release.Namespace }}/{{ template "nginx.fullname" . }}-ingress-controller
+            {{- if .Values.forceNamespaceIsolation }}
+            - --force-namespace-isolation
+            {{- end }}
+            - --ingress-class={{ template "nginx.ingress.class" . }}
+            - --default-ssl-certificate={{ .Release.Namespace }}/{{ .Values.global.tlsSecret }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.ports.http }}
+            - name: https
+              containerPort: {{ .Values.ports.https }}
+            - name: metrics
+              containerPort: {{ .Values.ports.metrics }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.ports.healthz }}
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+    {{- if eq (default .Values.global.antiAffinity .Values.antiAffinity) "hard" }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchLabels:
+                  tier: logging
+                  component: ingress-controller
+                  release: {{ .Release.Name }}
+    {{- else if eq (default .Values.global.antiAffinity .Values.antiAffinity) "soft" }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  tier: logging
+                  component: ingress-controller
+                  release: {{ .Release.Name }}
+    {{- end }}
