@@ -26,33 +26,9 @@ spec:
     - namespaceSelector: {}
     - podSelector:
         matchLabels:
-          tier: astronomer
-          component: houston
-          release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
           tier: logging
-          component: fluentd
+          component: nginx-es
           release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
-          tier: logging
-          component: kibana
-          release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
-          tier: logging
-          component: {{ template "elasticsearch.name" . }}
-          release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
-          tier: logging
-          component: {{ template "elasticsearch.name" . }}-exporter
-          release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
-          tier: airflow
-          component: webserver
     ports:
     - protocol: TCP
       port: {{ .Values.common.ports.http }}

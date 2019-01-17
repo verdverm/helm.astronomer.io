@@ -20,7 +20,7 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/port: {{ .Values.ports.metrics | quote }}
 spec:
-  clusterIP: None
+  type: ClusterIP
   selector:
     tier: logging
     component: nginx-es

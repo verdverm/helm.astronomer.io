@@ -1,5 +1,5 @@
 ################################
-## Airflow Worker Deployment
+## Airflow Worker Deployment/StatefulSet
 #################################
 {{- $persistence := .Values.workers.persistence.enabled }}
 {{- if eq .Values.executor "CeleryExecutor" }}

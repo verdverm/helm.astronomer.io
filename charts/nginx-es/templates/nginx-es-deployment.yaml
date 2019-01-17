@@ -22,10 +22,10 @@ spec:
     metadata:
       labels:
         tier: logging
-        component: ingress-controller
+        component: nginx-es
         release: {{ .Release.Name }}
       annotations:
-        checksum/configmap: {{ include (print $.Template.BasePath "/nginx-configmap.yaml") . | sha256sum }}
+        checksum/configmap: {{ include (print $.Template.BasePath "/nginx-es-configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "nginx.fullname" . }}-ingress-controller
       containers:
