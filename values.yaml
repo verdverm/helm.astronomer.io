@@ -53,6 +53,9 @@ global:
   airflow:
     enabled: false
 
+  nginx-es:
+    enabled: true
+
 
 #################################
 ## Astronomer configuration
@@ -232,6 +235,17 @@ kibana:
       cpu: "500m"
       memory: "1024Mi"
 
+#################################
+## NGINX-ES configuration
+#################################
+nginx-es:
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "500m"
+      memory: "1024Mi"
 
 #################################
 ## Fluentd configuration

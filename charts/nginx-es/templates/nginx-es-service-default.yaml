@@ -1,5 +1,5 @@
 ################################
-## NGINX Default backend service
+## NGINX-Elasticsearch Default backend service
 #################################
 kind: Service
 apiVersion: v1
