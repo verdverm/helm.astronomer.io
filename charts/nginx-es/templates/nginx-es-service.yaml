@@ -4,11 +4,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ template "nginx.fullname" . }}
+  name: {{ template "nginx-es.fullname" . }}
   labels:
     tier: logging
-    component: nginx-es
-    chart: {{ template "nginx.chart" . }}
+    component: {{ template "nginx-es.name" . }}
+    chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
@@ -23,7 +23,7 @@ spec:
   type: ClusterIP
   selector:
     tier: logging
-    component: nginx-es
+    component: {{ template "nginx-es.name" . }}
     release: {{ .Release.Name }}
     workspace: {{ .Values.platform.workspace | quote }}
   ports:

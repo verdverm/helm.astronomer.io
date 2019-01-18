@@ -4,17 +4,17 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ template "nginx.fullname" . }}-default-backend
+  name: {{ template "nginx-es.fullname" . }}-default-backend
   labels:
-    tier: {{ template "nginx.name" . }}
+    tier: {{ template "nginx-es.name" . }}
     component: default-backend
-    chart: {{ template "nginx.chart" . }}
+    chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: NodePort
   selector:
-    tier: {{ template "nginx.name" . }}
+    tier: {{ template "nginx-es.name" . }}
     component: default-backend
     release: {{ .Release.Name }}
   ports:

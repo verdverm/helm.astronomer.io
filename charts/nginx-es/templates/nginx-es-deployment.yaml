@@ -4,11 +4,11 @@
 kind: Deployment
 apiVersion: apps/v1beta2
 metadata:
-  name: {{ template "nginx.fullname" . }}
+  name: {{ template "nginx-es.fullname" . }}
   labels:
     tier: logging
-    component: nginx-es
-    chart: {{ template "nginx.chart" . }}
+    component: {{ template "nginx-es.name" . }}
+    chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -16,27 +16,27 @@ spec:
   selector:
     matchLabels:
       tier: logging
-      component: nginx-es
+      component: {{ template "nginx-es.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         tier: logging
-        component: nginx-es
+        component: {{ template "nginx-es.name" . }}
         release: {{ .Release.Name }}
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/nginx-es-configmap.yaml") . | sha256sum }}
     spec:
-      serviceAccountName: {{ template "nginx.fullname" . }}-ingress-controller
+      serviceAccountName: {{ template "nginx-es.fullname" . }}-ingress-controller
       containers:
         - name: {{ .Release.Name }}-nginx-es
           image: {{ template "nginx.image" . }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           args:
-            - /nginx-ingress-controller
-            - --default-backend-service={{ .Release.Namespace }}/{{ template "nginx.fullname" . }}-default-backend
-            - --configmap={{ .Release.Namespace }}/{{ template "nginx.fullname" . }}-ingress-controller
+            - /nginx-es-ingress-controller
+            - --default-backend-service={{ .Release.Namespace }}/{{ template "nginx-es.fullname" . }}-default-backend
+            - --configmap={{ .Release.Namespace }}/{{ template "nginx-es.fullname" . }}-ingress-controller
             {{- if .Values.forceNamespaceIsolation }}
             - --force-namespace-isolation
             {{- end }}

@@ -4,24 +4,24 @@
 kind: Deployment
 apiVersion: apps/v1beta2
 metadata:
-  name: {{ template "nginx.fullname" . }}-default-backend
+  name: {{ template "nginx-es.fullname" . }}-default-backend
   labels:
     tier: logging
     component: default-backend
-    chart: {{ template "nginx.chart" . }}
+    chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      tier: {{ template "nginx.name" . }}
+      tier: logging
       component: default-backend
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        tier: {{ template "nginx.name" . }}
+        tier: logging
         component: default-backend
         release: {{ .Release.Name }}
     spec:
