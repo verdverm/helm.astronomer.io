@@ -25,7 +25,6 @@ spec:
     tier: logging
     component: {{ template "nginx-es.name" . }}
     release: {{ .Release.Name }}
-    workspace: {{ .Values.platform.workspace | quote }}
   ports:
     - port: {{ .Values.ports.http }}
       targetPort: {{ .Values.ports.http }}
