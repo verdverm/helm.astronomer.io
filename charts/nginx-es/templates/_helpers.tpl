@@ -43,7 +43,7 @@ Create chart name and version as used by the chart label.
 {{- if .Values.ingressClass -}}
 {{- .Values.ingressClass -}}
 {{- else }}
-{{- template "nginx.fullname" . -}}
+{{- template "nginx-es.fullname" . -}}
 {{- end -}}
 {{- end -}}
 

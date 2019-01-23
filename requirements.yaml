@@ -18,6 +18,8 @@ dependencies:
     condition: global.fluentd.enabled
   - name: kube-state
     condition: global.kubeState.enabled
+  - name: nginx-es
+    condition: global.nginx-es.enabled
 
   # Airflow chart is deployed by the platform
   - name: airflow

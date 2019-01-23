@@ -34,7 +34,7 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           args:
-            - /nginx-es-ingress-controller
+            - /nginx-ingress-controller
             - --default-backend-service={{ .Release.Namespace }}/{{ template "nginx-es.fullname" . }}-default-backend
             - --configmap={{ .Release.Namespace }}/{{ template "nginx-es.fullname" . }}-ingress-controller
             {{- if .Values.forceNamespaceIsolation }}
