@@ -42,6 +42,7 @@ spec:
             {{- end }}
             - --ingress-class={{ template "nginx.ingress.class" . }}
             - --default-ssl-certificate={{ .Release.Namespace }}/{{ .Values.global.tlsSecret }}
+            # - --election-id=nginx-ingress-controller-leader
           ports:
             - name: http
               containerPort: {{ .Values.ports.http }}
