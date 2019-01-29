@@ -187,3 +187,27 @@ exporter:
   web:
     # Path under which to expose metrics.
     path: /metrics
+
+# Ingress configuration
+ingress:
+  # Enable ingress resource
+  enabled: true
+
+  # Enable for cert-manager or kube-lego
+  acme: false
+
+  # Name of tls secret to use on ingress
+  tlsSecretName: ~
+
+  # Base domain for ingress vhosts
+  baseDomain: ~
+
+  # If deployed from the Astronomer platform, this will be overridden
+  # to a class that matches the platform release name. This lets us run
+  # multiple platforms in one cluster and have deployments from one platform
+  # use the corresponding platform ingress controller.
+  class: "nginx-es"
+
+  # Enable platform authentication
+  auth:
+    enabled: true

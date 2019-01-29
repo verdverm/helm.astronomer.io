@@ -1,0 +1,28 @@
+################################
+## Elasticsearch Ingress
+#################################
+{{- if .Values.ingress.enabled }}
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ .Release.Name }}-elasticsearch-ingress
+  labels:
+    tier: logging
+    component: elasticsearch-ingress
+    release: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ .Release.Name }}-elasticsearch
+              servicePort: 9200
+{{- end }}
