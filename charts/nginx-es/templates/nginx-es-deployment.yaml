@@ -7,7 +7,7 @@ metadata:
   name: {{ template "nginx-es.fullname" . }}
   labels:
     tier: logging
-    component: {{ template "nginx-es.name" . }}
+    component: {{ template "nginx-es.name" . }}-ingress-controller
     chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -16,13 +16,13 @@ spec:
   selector:
     matchLabels:
       tier: logging
-      component: {{ template "nginx-es.name" . }}
+      component: {{ template "nginx-es.name" . }}-ingress-controller
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         tier: logging
-        component: {{ template "nginx-es.name" . }}
+        component: {{ template "nginx-es.name" . }}-ingress-controller
         release: {{ .Release.Name }}
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/nginx-es-configmap.yaml") . | sha256sum }}
@@ -40,13 +40,12 @@ spec:
             {{- if .Values.forceNamespaceIsolation }}
             - --force-namespace-isolation
             {{- end }}
-            - --ingress-class={{ template "nginx.ingress.class" . }}
+            - --ingress-class={{ template "nginx-es.ingress.class" . }}
             - --default-ssl-certificate={{ .Release.Namespace }}/{{ .Values.global.tlsSecret }}
+            # - --election-id=nginx-es-ingress-controller-leader
           ports:
             - name: http
               containerPort: {{ .Values.ports.http }}
-            - name: https
-              containerPort: {{ .Values.ports.https }}
             - name: metrics
               containerPort: {{ .Values.ports.metrics }}
           livenessProbe:
@@ -72,7 +71,7 @@ spec:
               labelSelector:
                 matchLabels:
                   tier: logging
-                  component: ingress-controller
+                  component: {{ template "nginx-es.name" . }}-ingress-controller
                   release: {{ .Release.Name }}
     {{- else if eq (default .Values.global.antiAffinity .Values.antiAffinity) "soft" }}
       affinity:
@@ -84,6 +83,6 @@ spec:
               labelSelector:
                 matchLabels:
                   tier: logging
-                  component: ingress-controller
+                  component: {{ template "nginx-es.name" . }}-ingress-controller
                   release: {{ .Release.Name }}
     {{- end }}

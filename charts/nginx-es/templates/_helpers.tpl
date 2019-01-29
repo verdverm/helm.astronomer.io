@@ -39,19 +39,10 @@ Create chart name and version as used by the chart label.
 {{ .Values.images.defaultBackend.repository }}:{{ .Values.images.defaultBackend.tag }}
 {{- end }}
 
-{{ define "nginx.ingress.class" -}}
+{{ define "nginx-es.ingress.class" -}}
 {{- if .Values.ingressClass -}}
 {{- .Values.ingressClass -}}
 {{- else }}
-{{- template "nginx-es.fullname" . -}}
+{{- template "nginx-es.name" . -}}
 {{- end -}}
-{{- end -}}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 53 chars (63 - len("-discovery")) because some Kubernetes name fields are limited to 63 (by the DNS naming spec).
-*/}}
-{{- define "elasticsearch.fullname" -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 53 | trimSuffix "-" -}}
 {{- end -}}

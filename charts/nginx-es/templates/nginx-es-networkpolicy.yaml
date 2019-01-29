@@ -1,59 +1,59 @@
-################################
-## NGINX-Elasticsearch Network Policy
-#################################
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: {{ template "nginx-es.fullname" . }}-nginx-es-policy
-  labels:
-    tier: logging
-    component: {{ template "nginx-es.name" . }}-nginx-es-policy
-    chart: {{ template "nginx-es.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-    role: nginx-es-ingress-controller
-spec:
-  podSelector:
-    matchLabels:
-      tier: logging
-      component: {{ template "nginx-es.name" . }}
-      release: {{ .Release.Name }}
-  policyTypes:
-  - Ingress
-  ingress:
-  - from:
-    - namespaceSelector: {}
-    # - podSelector:
-    #     matchLabels:
-    #       tier: astronomer
-    #       component: houston
-    #       release: {{ .Release.Name }}
-    # - podSelector:
-    #     matchLabels:
-    #       tier: logging
-    #       component: fluentd
-    #       release: {{ .Release.Name }}
-    # - podSelector:
-    #     matchLabels:
-    #       tier: logging
-    #       component: kibana
-    #       release: {{ .Release.Name }}
-    # - podSelector:
-    #     matchLabels:
-    #       tier: logging
-    #       component: {{ template "elasticsearch.name" . }}
-    #       release: {{ .Release.Name }}
-    # - podSelector:
-    #     matchLabels:
-    #       tier: logging
-    #       component: {{ template "elasticsearch.name" . }}-exporter
-    #       release: {{ .Release.Name }}
-    - podSelector:
-        matchLabels:
-          tier: airflow
-          component: webserver
-    ports:
-    - protocol: TCP
-      port: {{ .Values.common.ports.http }}
-    - protocol: TCP
-      port: {{ .Values.common.ports.transport }}
+# ################################
+# ## NGINX-Elasticsearch Network Policy
+# #################################
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: {{ template "nginx-es.fullname" . }}-nginx-es-policy
+#   labels:
+#     tier: logging
+#     component: {{ template "nginx-es.name" . }}-nginx-es-policy
+#     chart: {{ template "nginx-es.chart" . }}
+#     release: {{ .Release.Name }}
+#     heritage: {{ .Release.Service }}
+#     role: nginx-es-ingress-controller
+# spec:
+#   podSelector:
+#     matchLabels:
+#       tier: logging
+#       component: {{ template "nginx-es.name" . }}
+#       release: {{ .Release.Name }}
+#   policyTypes:
+#   - Ingress
+#   ingress:
+#   - from:
+#     - namespaceSelector: {}
+#     # - podSelector:
+#     #     matchLabels:
+#     #       tier: astronomer
+#     #       component: houston
+#     #       release: {{ .Release.Name }}
+#     # - podSelector:
+#     #     matchLabels:
+#     #       tier: logging
+#     #       component: fluentd
+#     #       release: {{ .Release.Name }}
+#     # - podSelector:
+#     #     matchLabels:
+#     #       tier: logging
+#     #       component: kibana
+#     #       release: {{ .Release.Name }}
+#     # - podSelector:
+#     #     matchLabels:
+#     #       tier: logging
+#     #       component: {{ template "elasticsearch.name" . }}
+#     #       release: {{ .Release.Name }}
+#     # - podSelector:
+#     #     matchLabels:
+#     #       tier: logging
+#     #       component: {{ template "elasticsearch.name" . }}-exporter
+#     #       release: {{ .Release.Name }}
+#     - podSelector:
+#         matchLabels:
+#           tier: airflow
+#           component: webserver
+#     ports:
+#     - protocol: TCP
+#       port: {{ .Values.common.ports.http }}
+#     - protocol: TCP
+#       port: {{ .Values.common.ports.transport }}

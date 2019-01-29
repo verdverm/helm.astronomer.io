@@ -36,8 +36,7 @@ hstsIncludeSubdomains: false
 serverNameHashBucketSize: 256
 
 ports:
-  http: 80
-  https: 443
+  http: 9200
   defaultBackendHTTP: 8080
   healthz: 10254
   metrics: 10254

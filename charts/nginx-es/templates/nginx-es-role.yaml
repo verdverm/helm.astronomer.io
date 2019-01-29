@@ -26,7 +26,7 @@ rules:
     resources:
       - configmaps
     resourceNames:
-      - ingress-controller-leader-{{ template "nginx-es.fullname" . }}
+      - ingress-controller-leader-{{ template "nginx-es.ingress.class" . }}
     verbs:
       - get
       - update

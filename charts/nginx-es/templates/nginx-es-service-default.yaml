@@ -6,7 +6,7 @@ apiVersion: v1
 metadata:
   name: {{ template "nginx-es.fullname" . }}-default-backend
   labels:
-    tier: {{ template "nginx-es.name" . }}
+    tier: logging
     component: default-backend
     chart: {{ template "nginx-es.chart" . }}
     release: {{ .Release.Name }}
@@ -14,7 +14,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    tier: {{ template "nginx-es.name" . }}
+    tier: logging
     component: default-backend
     release: {{ .Release.Name }}
   ports:
