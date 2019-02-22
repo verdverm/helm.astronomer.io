@@ -22,3 +22,5 @@ dependencies:
   # Airflow chart is deployed by the platform
   - name: airflow
     condition: global.airflow.enabled
+  - name: airflow-operator
+    condition: global.airflow-opeartor.enabled ???
