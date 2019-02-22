@@ -53,6 +53,9 @@ global:
   airflow:
     enabled: false
 
+  airflow-operator:
+    enabled: false
+
 
 #################################
 ## Astronomer configuration
