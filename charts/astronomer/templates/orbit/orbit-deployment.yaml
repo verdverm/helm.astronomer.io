@@ -60,3 +60,5 @@ spec:
             {{- end }}
             - name: ANALYTICS_TRACKING_ID
               value: "pFWwGe5wXTK5e26mWAarQ"
+            - name: STRIPE_PK
+              value: "pk_test_QypYouqR3seLGJzwz0qmdoUe"
