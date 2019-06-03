@@ -44,7 +44,7 @@ rbacEnabled: true
 
 # Airflow version
 # Options: 1.9.0, 1.10.2, etc
-airflowVersion: "1.10.2"
+airflowVersion: "1.10.3"
 
 # Airflow executor
 # Options: SequentialExecutor, LocalExecutor, CeleryExecutor, KubernetesExecutor
@@ -69,19 +69,19 @@ images:
     pullPolicy: IfNotPresent
   statsd:
     repository: astronomerinc/ap-statsd-exporter
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   redis:
     repository: astronomerinc/ap-redis
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   pgbouncer:
     repository: astronomerinc/ap-pgbouncer
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   pgbouncerExporter:
     repository: astronomerinc/ap-pgbouncer-exporter
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
 
 # Environment variables for all airflow containers
@@ -168,15 +168,15 @@ scheduler:
 # Airflow webserver settings
 webserver:
   livenessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 15
     timeoutSeconds: 30
-    failureThreshold: 10
+    failureThreshold: 20
     periodSeconds: 5
 
   readinessProbe:
-    initialDelaySeconds: 10
+    initialDelaySeconds: 15
     timeoutSeconds: 30
-    failureThreshold: 10
+    failureThreshold: 20
     periodSeconds: 5
 
   # Number of webservers
@@ -189,6 +189,9 @@ webserver:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
+
+  # Secret that contains the cert to verify JWTs
+  jwtSigningCertificateSecretName: ~
 
 # Flower settings
 flower:
@@ -302,5 +305,7 @@ limits: []
 # This is what allows for integration into platform ingress, network policies, metrics collection, etc.
 # This chart is completely deployable without specifying these values.
 platform:
+  namespace: ~
   release: ~
   workspace: ""
+  singleNamespace: true

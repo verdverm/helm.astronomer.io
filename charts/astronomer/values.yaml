@@ -6,31 +6,35 @@
 images:
   commander:
     repository: astronomerinc/ap-commander
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   registry:
     repository: astronomerinc/ap-registry
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   houston:
     repository: astronomerinc/ap-houston-api
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   orbit:
     repository: astronomerinc/ap-orbit-ui
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   dbBootstrapper:
     repository: astronomerinc/ap-db-bootstrapper
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   cliInstall:
     repository: astronomerinc/ap-cli-install
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   prisma:
     repository: astronomerinc/ap-prisma
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
+    pullPolicy: IfNotPresent
+  kubeReplicator:
+    repository: astronomerinc/ap-kube-replicator
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
 
 orbit:
@@ -60,6 +64,10 @@ houston:
     # host: ~
     # port: ~
     # db: ~
+
+  # This specifies an optional secret name to use to sign JWTs.
+  # If not specified, we use an auto-generated, self-signed certificate.
+  jwtSigningCertificateSecretName: ~
 
   env: {}
   resources: {}
@@ -118,6 +126,12 @@ registry:
     service: "docker-registry"
     issuer: "houston"
 
+  gcs:
+    enabled: false
+    bucket: ~
+    keyfile: /var/gcs-keyfile/astronomer-gcs-keyfile
+    rootdirectory: /
+    chunksize: '5242880'
 
 install:
   resources: {}
@@ -127,6 +141,16 @@ install:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+kubeReplicator:
+  resources: {}
+  #  limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  #  requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
 
 ports:
   houstonHTTP: 8871

@@ -8,7 +8,7 @@ astronomer:
   images:
     commander:
       repository: astronomerinc/ap-commander
-      tag: master
+      tag: dev
       pullPolicy: Always
     registry:
       repository: astronomerinc/ap-registry
@@ -16,11 +16,11 @@ astronomer:
       pullPolicy: Always
     houston:
       repository: astronomerinc/ap-houston-api
-      tag: master
+      tag: dev
       pullPolicy: Always
     orbit:
       repository: astronomerinc/ap-orbit-ui
-      tag: master
+      tag: dev
       pullPolicy: Always
     dbBootstrapper:
       repository: astronomerinc/ap-db-bootstrapper
@@ -154,3 +154,4 @@ alertmanager:
       repository: astronomerinc/ap-alertmanager
       tag: master
       pullPolicy: IfNotPresent
+

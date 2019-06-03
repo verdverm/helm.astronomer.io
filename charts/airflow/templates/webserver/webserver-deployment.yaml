@@ -54,6 +54,16 @@ spec:
               mountPath: {{ template "airflow_config_path" . }}
               subPath: airflow.cfg
               readOnly: true
+            - name: config
+              mountPath: {{ template "airflow_webserver_config_path" . }}
+              subPath: webserver_config.py
+              readOnly: true
+{{- if .Values.webserver.jwtSigningCertificateSecretName }}
+            - name: signing-certificate
+              mountPath: {{ template "airflow_webserver_jwt_cert_path" . }}
+              subPath: tls.crt
+              readOnly: true
+{{- end }}
           ports:
             - name: webserver-ui
               containerPort: {{ .Values.ports.airflowUI }}
@@ -61,17 +71,17 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.ports.airflowUI }}
-            initialDelaySeconds: {{ .Values.webserver.initialDelaySeconds | default 10 }}
+            initialDelaySeconds: {{ .Values.webserver.initialDelaySeconds | default 15 }}
             timeoutSeconds: {{ .Values.webserver.timeoutSeconds | default 30 }}
-            failureThreshold: {{ .Values.webserver.failureThreshold | default 10 }}
+            failureThreshold: {{ .Values.webserver.failureThreshold | default 20 }}
             periodSeconds: {{ .Values.webserver.periodSeconds | default 5 }}
           readinessProbe:
             httpGet:
               path: /health
               port: {{ .Values.ports.airflowUI }}
-            initialDelaySeconds: {{ .Values.webserver.initialDelaySeconds | default 10 }}
+            initialDelaySeconds: {{ .Values.webserver.initialDelaySeconds | default 15 }}
             timeoutSeconds: {{ .Values.webserver.timeoutSeconds | default 30 }}
-            failureThreshold: {{ .Values.webserver.failureThreshold | default 30 }}
+            failureThreshold: {{ .Values.webserver.failureThreshold | default 20 }}
             periodSeconds: {{ .Values.webserver.periodSeconds | default 5 }}
           env:
           {{- include "custom_airflow_environment" . | indent 10 }}
@@ -80,3 +90,8 @@ spec:
         - name: config
           configMap:
             name: {{ template "airflow_config" . }}
+{{- if .Values.webserver.jwtSigningCertificateSecretName }}
+        - name: signing-certificate
+          secret:
+            secretName: {{ .Values.webserver.jwtSigningCertificateSecretName }}
+{{- end }}

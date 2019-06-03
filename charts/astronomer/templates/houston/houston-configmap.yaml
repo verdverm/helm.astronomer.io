@@ -29,7 +29,7 @@ data:
 
     auth:
       local:
-        enabled: true
+        enabled: false
       google:
         enabled: true
         clientId: ~
@@ -48,6 +48,19 @@ data:
       releaseVersion: {{ .Chart.Version }}
       singleNamespace: {{ .Values.global.singleNamespace }}
 
+    # Airflow deployment configuration
+    deployments:
+      helm:
+        # These values get passed directly into the airflow helm deployments
+        webserver:
+          # This is the name of the secret that gets copied from the platform namespace
+          # to the airflow namespaces.
+          jwtSigningCertificateSecretName: {{ template "houston.jwtCertificateSecret" . }}
+
+        platform:
+          namespace: {{ .Release.Namespace }}
+          singleNamespace: {{ .Values.global.singleNamespace }}
+
     # If we're in single namespace mode, we will also
     # skip the configuration for elasticsearch. Houston will fallback
     # to its default modes, which are false/disabled.
@@ -58,18 +71,17 @@ data:
     # enrich logs with kubernetes metadata. In a single namespace environment,
     # we're likely not going to get a ClusterRole from admins.
     {{- if not .Values.global.singleNamespace }}
-    elasticsearch:
-      enabled: true
-      client:
-        host: {{ printf "%s-elasticsearch:9200" .Release.Name }}
-        log: error
-
-    deployments:
       elasticsearch:
         enabled: true
         connection:
           host: {{ printf "%s-elasticsearch-nginx.%s" .Release.Name .Release.Namespace }}
           port: 9200
+
+    elasticsearch:
+      enabled: true
+      client:
+        host: {{ printf "%s-elasticsearch:9200" .Release.Name }}
+        log: error
     {{- end }}
 
   # These are any user-specified config overrides.

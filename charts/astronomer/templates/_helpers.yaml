@@ -37,6 +37,10 @@
 {{ .Values.images.cliInstall.repository }}:{{ .Values.images.cliInstall.tag }}
 {{- end }}
 
+{{ define "kubeReplicator.image" -}}
+{{ .Values.images.kubeReplicator.repository }}:{{ .Values.images.kubeReplicator.tag }}
+{{- end }}
+
 {{ define "registry.docker.config" -}}
   {{- $domain := printf "registry.%v" .Values.global.baseDomain }}
   {{- $email := printf "admin@%v" .Values.global.baseDomain }}
@@ -63,6 +67,22 @@
 {{ default (printf "%s-houston-backend" .Release.Name) .Values.houston.airflowBackendSecretName }}
 {{- end }}
 
+{{ define "houston.jwtCertificateSecret" -}}
+{{ default (printf "%s-houston-jwt-certificate" .Release.Name) .Values.houston.jwtSigningCertificateSecretName }}
+{{- end }}
+
+{{ define "houston.jwtCertificatePath" -}}
+/etc/houston/tls/self
+{{- end }}
+
+{{ define "houston.jwtRegistryCertificatePath" -}}
+/etc/houston/tls/registry
+{{- end }}
+
+{{ define "houston.tlsRegistryCertificatePath" -}}
+/usr/local/share/ca-certificates/registry.crt
+{{- end }}
+
 {{ define "registry.authSecret" -}}
 {{ default (printf "%s-registry-auth" .Release.Name) .Values.registry.auth.secretName }}
 {{- end }}
@@ -75,6 +95,29 @@
 {{ printf "%s-prisma-bootstrapper" .Release.Name }}
 {{- end }}
 
+{{ define "kubeReplicator.serviceAccount" -}}
+{{ printf "%s-kube-replicator" .Release.Name }}
+{{- end }}
+
 {{ define "prisma.endpoint" -}}
 {{ printf "http://%s-prisma:%s/houston" .Release.Name (.Values.ports.prismaHTTP | toString) }}
+{{- end }}
+
+{{- define "registry.gcsVolume" }}
+- name: gcs-keyfile
+  secret:
+    secretName: astronomer-gcs-keyfile
+{{- end }}
+
+{{- define "registry.gcsVolumeMount" }}
+- name: gcs-keyfile
+  mountPath: /var/gcs-keyfile
+{{- end }}
+
+{{- define "registry.gcsConfig" }}
+gcs:
+  bucket: {{ .Values.registry.gcs.bucket }}
+  keyfile: {{ .Values.registry.gcs.keyfile }}
+  rootdirectory: {{ .Values.registry.gcs.rootdirectory }}
+  chunksize: {{ .Values.registry.gcs.chunksize }}
 {{- end }}

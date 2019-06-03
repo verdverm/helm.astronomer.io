@@ -1,13 +1,13 @@
 ################################
-## Orbit NetworkPolicy
+## Kube Replicator NetworkPolicy
 #################################
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-orbit-policy
+  name: {{ .Release.Name }}-kube-replicator-policy
   labels:
-    tier: astronomer
-    component: orbit-policy
+    tier: airflow
+    component: kube-replicator-policy
     release: {{ .Release.Name }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: {{ .Release.Service }}
@@ -15,16 +15,7 @@ spec:
   podSelector:
     matchLabels:
       tier: astronomer
-      component: orbit
+      component: kube-replicator
       release: {{ .Release.Name }}
   policyTypes:
   - Ingress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          tier: nginx
-          component: ingress-controller
-    ports:
-    - protocol: TCP
-      port: {{ .Values.ports.orbitHTTP }}

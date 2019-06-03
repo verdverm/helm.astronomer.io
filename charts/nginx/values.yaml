@@ -4,11 +4,11 @@
 images:
   nginx:
     repository: astronomerinc/ap-nginx
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
   defaultBackend:
     repository: astronomerinc/ap-default-backend
-    tag: 0.9.0-alpha.2
+    tag: 0.9.1-alpha.2
     pullPolicy: IfNotPresent
 
 forceNamespaceIsolation: true
@@ -31,7 +31,10 @@ loadBalancerIP:
 # Used to restrict IPs which can reach the nginx ingress
 loadBalancerSourceRanges:
 
-## Dependent on cloud provider
+# Set to 'true' when deploying to a private EKS cluster
+privateLoadBalancer: false
+
+# Dependent on cloud provider
 preserveSourceIP: false
 
 proxyConnectTimeout: 15
