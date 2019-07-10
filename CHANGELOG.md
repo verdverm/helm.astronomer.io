@@ -2,10 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.9.1] - 2019-06-05
+## [0.9.3] - 2019-07-09
+- CLI bug fixes
+- Azure internal loadbalancer support
+- Houston migration from 0.9.x
+
+## [0.9.2] - 2019-06-24
+- Fix local env link and user/password in CLI
+- Fix early data load issue in orbit metrics
+- Fix deployment listing issue in orbit
+
+## [0.9.1] - 2019-06-17
 - Support for Okta as oauth integration
 - CLI compatibility fixes
 - RBAC enabled locally
+- Workspace level billing
+- Stopped creation of default workspace
+- Support for helm 2.14
+- Disable email/password auth by default
+- Expose deployment metrics in UI and API
 - Bug fixes
 
 ## [0.9.0] - 2019-05-17

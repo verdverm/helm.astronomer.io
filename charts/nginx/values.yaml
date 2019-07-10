@@ -1,14 +1,18 @@
 # Default values for nginx.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
 images:
   nginx:
     repository: astronomerinc/ap-nginx
-    tag: 0.9.1-alpha.4
+    tag: 0.10.0-alpha.2
     pullPolicy: IfNotPresent
   defaultBackend:
     repository: astronomerinc/ap-default-backend
-    tag: 0.9.1-alpha.4
+    tag: 0.10.0-alpha.2
     pullPolicy: IfNotPresent
 
 forceNamespaceIsolation: true

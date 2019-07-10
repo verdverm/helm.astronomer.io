@@ -2,14 +2,18 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
 images:
   grafana:
     repository: astronomerinc/ap-grafana
-    tag: 0.9.1-alpha.4
+    tag: 0.10.0-alpha.2
     pullPolicy: IfNotPresent
   dbBootstrapper:
     repository: astronomerinc/ap-db-bootstrapper
-    tag: 0.9.1-alpha.4
+    tag: 0.10.0-alpha.2
     pullPolicy: IfNotPresent
 
 backendSecretName: ~

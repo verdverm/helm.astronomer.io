@@ -27,6 +27,12 @@ spec:
       annotations:
         checksum/houston-config: {{ include (print $.Template.BasePath "/houston/houston-configmap.yaml") . | sha256sum }}
     spec:
+      nodeSelector:
+{{ toYaml (default .Values.global.platformNodePool.nodeSelector .Values.nodeSelector) | indent 8 }}
+      affinity:
+{{ toYaml (default .Values.global.platformNodePool.affinity .Values.affinity) | indent 8 }}
+      tolerations:
+{{ toYaml (default .Values.global.platformNodePool.tolerations .Values.tolerations) | indent 8 }}
       restartPolicy: Always
       {{- if and (not .Values.houston.airflowBackendSecretName) (not .Values.houston.airflowBackendConnection) }}
       serviceAccountName: {{ template "houston.bootstrapperServiceAccount" . }}
@@ -78,14 +84,14 @@ spec:
             httpGet:
               path: /v1/healthz
               port: {{ .Values.ports.houstonHTTP }}
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /v1/healthz
               port: {{ .Values.ports.houstonHTTP }}
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 10
           env:
@@ -95,6 +101,11 @@ spec:
             {{- end }}
             - name: NODE_ENV
               value: "production"
+            - name: DATABASE__CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "houston.backendSecret" . }}
+                  key: connection
             - name: JWT__CERT_PATH
               value: {{ template "houston.jwtCertificatePath" . }}
             - name: JWT__REGISTRY__CERT_PATH

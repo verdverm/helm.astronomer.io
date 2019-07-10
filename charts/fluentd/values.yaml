@@ -1,7 +1,11 @@
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
 images:
   fluentd:
     repository: astronomerinc/ap-fluentd
-    tag: 0.9.1-alpha.4
+    tag: 0.10.0-alpha.2
     pullPolicy: IfNotPresent
 
 elasticsearch:

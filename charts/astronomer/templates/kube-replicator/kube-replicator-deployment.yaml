@@ -26,12 +26,18 @@ spec:
         component: kube-replicator
         release: {{ .Release.Name }}
     spec:
+      nodeSelector:
+{{ toYaml (default .Values.global.platformNodePool.nodeSelector .Values.nodeSelector) | indent 8 }}
+      affinity:
+{{ toYaml (default .Values.global.platformNodePool.affinity .Values.affinity) | indent 8 }}
+      tolerations:
+{{ toYaml (default .Values.global.platformNodePool.tolerations .Values.tolerations) | indent 8 }}
       restartPolicy: Always
       serviceAccountName: {{ template "kubeReplicator.serviceAccount" . }}
       containers:
         - name: {{ .Release.Name }}-kube-replicator
           image: {{ template "kubeReplicator.image" . }}
-          imagePullPolicy: {{ .Values.images.houston.pullPolicy }}
+          imagePullPolicy: {{ .Values.images.kubeReplicator.pullPolicy }}
           resources:
 {{ toYaml .Values.kubeReplicator.resources | indent 12 }}
 {{- end }}
