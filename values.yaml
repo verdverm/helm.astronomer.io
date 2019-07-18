@@ -153,6 +153,8 @@ nginx:
   # Used to restrict IPs which can reach the nginx ingress
   loadBalancerSourceRanges:
 
+  annotations:
+
 
 #################################
 ## Grafana configuration
