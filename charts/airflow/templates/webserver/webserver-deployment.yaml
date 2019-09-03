@@ -15,6 +15,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.webserver.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       tier: airflow
@@ -49,7 +53,7 @@ spec:
         - name: {{ template "registry_secret" . }}
       {{- end }}
       containers:
-        - name: {{ .Release.Name }}-webserver
+        - name: webserver
           image: {{ template "airflow_image" . }}
           imagePullPolicy: {{ .Values.images.airflow.pullPolicy }}
           args: ["airflow", "webserver"]
@@ -66,8 +70,7 @@ spec:
               readOnly: true
 {{- if .Values.webserver.jwtSigningCertificateSecretName }}
             - name: signing-certificate
-              mountPath: {{ template "airflow_webserver_jwt_cert_path" . }}
-              subPath: tls.crt
+              mountPath: {{ template "airflow_webserver_jwt_cert_dir" . }}
               readOnly: true
 {{- end }}
           ports:

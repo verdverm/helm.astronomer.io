@@ -65,14 +65,6 @@
 {{- end }}
 {{- end }}
 
-{{ define "kubeReplicator.image" -}}
-{{- if .Values.global.privateRegistry.enabled -}}
-{{ .Values.global.privateRegistry.repository }}/ap-kube-replicator:{{ .Values.images.kubeReplicator.tag }}
-{{- else -}}
-{{ .Values.images.kubeReplicator.repository }}:{{ .Values.images.kubeReplicator.tag }}
-{{- end }}
-{{- end }}
-
 {{ define "registry.docker.config" -}}
   {{- $domain := printf "registry.%v" .Values.global.baseDomain }}
   {{- $email := printf "admin@%v" .Values.global.baseDomain }}
@@ -99,12 +91,24 @@
 {{ default (printf "%s-houston-backend" .Release.Name) .Values.houston.airflowBackendSecretName }}
 {{- end }}
 
+{{ define "houston.jwtKeySecret" -}}
+{{ default (printf "%s-houston-jwt-signing-key" .Release.Name) .Values.houston.jwtSigningKeySecretName }}
+{{- end }}
+
 {{ define "houston.jwtCertificateSecret" -}}
-{{ default (printf "%s-houston-jwt-certificate" .Release.Name) .Values.houston.jwtSigningCertificateSecretName }}
+{{ default (printf "%s-houston-jwt-signing-certificate" .Release.Name) .Values.houston.jwtSigningCertificateSecretName }}
+{{- end }}
+
+{{ define "houston.jwtCertificateDir" -}}
+/etc/houston/tls/self
+{{- end }}
+
+{{ define "houston.jwtKeyPath" -}}
+{{ printf "%s/tls.key" (include "houston.jwtCertificateDir" .) }}
 {{- end }}
 
 {{ define "houston.jwtCertificatePath" -}}
-/etc/houston/tls/self
+{{ printf "%s/tls.crt" (include "houston.jwtCertificateDir" .) }}
 {{- end }}
 
 {{ define "houston.jwtRegistryCertificatePath" -}}
@@ -125,10 +129,6 @@
 
 {{ define "prisma.bootstrapperServiceAccount" -}}
 {{ printf "%s-prisma-bootstrapper" .Release.Name }}
-{{- end }}
-
-{{ define "kubeReplicator.serviceAccount" -}}
-{{ printf "%s-kube-replicator" .Release.Name }}
 {{- end }}
 
 {{ define "prisma.endpoint" -}}

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2019-08-22
+- Upgrade to Airflow 1.10.4
+- Refactored astro subcommands
+- Fixes to log viewer in UI
+- Updated metrics tab in UI
+- System Admin panel
+- Security patches in the API
+- Limit ephemeral storage on all airflow pods
+- Default additional 10AU for KubeExecutor
+- Can now set roles for Service Accounts
+- Login to CLI with service account
+- API standardiztaion and stablilization
+- Fix airflow access after reinstalling the platform
+- Addressed security issues flagged by clair
+
 ## [0.9.7] - 2019-08-09
 - Fix incorrect image tag deployment bug
 - Fix KubernetesExecutor + custom environment variables bug
