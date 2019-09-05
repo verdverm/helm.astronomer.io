@@ -30,7 +30,7 @@ spec:
         platform: {{ .Values.platform.release }}
         workspace: {{ .Values.platform.workspace | quote }}
       annotations:
-         autoscaling.knative.dev/target: "8"
+         autoscaling.knative.dev/target: {{ $config.concurrency }}
     spec:
       containers:
         - name: worker
