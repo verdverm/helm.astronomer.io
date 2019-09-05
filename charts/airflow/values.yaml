@@ -313,7 +313,7 @@ ports:
   flowerUI: 5555
   airflowUI: 8080
   workerLogs: 8793
-  knatveWorker: 8080
+  knativeWorker: 8080
   redisDB: 6379
   statsdIngest: 9125
   statsdScrape: 9102
