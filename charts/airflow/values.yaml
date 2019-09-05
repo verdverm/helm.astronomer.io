@@ -300,6 +300,7 @@ knative:
   # List of queues to create
   queues: []
   # - name: default
+  #   concurrency: 10
   #   resources:
   #     limits:
   #       cpu: 2000m
