@@ -292,11 +292,28 @@ elasticsearch:
     # host: ~
     # port: ~
 
+# Knative worker configuation
+knative:
+  # Enable knative worker services
+  enabled: false
+
+  # List of queues to create
+  queues: []
+  # - name: default
+  #   resources:
+  #     limits:
+  #       cpu: 2000m
+  #       memory: 5Gi
+  #     requests:
+  #       cpu: 2000m
+  #       memory: 5Gi
+
 # All ports used by chart
 ports:
   flowerUI: 5555
   airflowUI: 8080
   workerLogs: 8793
+  knatveWorker: 8080
   redisDB: 6379
   statsdIngest: 9125
   statsdScrape: 9102
