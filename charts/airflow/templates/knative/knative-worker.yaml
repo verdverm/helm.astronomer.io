@@ -1,0 +1,58 @@
+################################
+## Airflow Knative Worker Service
+#################################
+
+# Only deploy these if knative is explicitly enabled.
+{{- if .Values.knative.enabled }}
+
+# Loop over the list of queues and create a Service for each.
+{{- range $i, $config := .Values.knative.queues }}
+kind: Service
+apiVersion: serving.knative.dev/v1alpha1
+metadata:
+  # Example: planetary-nebula-1234-knative-queue-default
+  name: {{ printf "%s-knative-queue-%s" .Release.Name $config.name }}
+  labels:
+    tier: airflow
+    component: worker
+    release: {{ .Release.Name }}
+    platform: {{ .Values.platform.release }}
+    workspace: {{ .Values.platform.workspace | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service }}
+spec:
+  template:
+    metadata:
+      labels:
+        tier: airflow
+        component: worker
+        release: {{ .Release.Name }}
+        platform: {{ .Values.platform.release }}
+        workspace: {{ .Values.platform.workspace | quote }}
+      annotations:
+         autoscaling.knative.dev/target: "8"
+    spec:
+      containers:
+        - name: worker
+          image: {{ template "airflow_image" . }}
+          imagePullPolicy: {{ .Values.images.airflow.pullPolicy }}
+          args: ["airflow", "knative_worker"]
+          # Template in the resources for this particular queue
+          resources:
+{{ toYaml $config.resources | indent 12 }}
+          ports:
+            - containerPort: {{ .Values.ports.knativeWorker }}
+          env:
+          {{- include "custom_airflow_environment" . | indent 10 }}
+          {{- include "standard_airflow_environment" . | indent 10 }}
+          volumeMounts:
+            - name: config
+              mountPath: {{ template "airflow_config_path" . }}
+              subPath: airflow.cfg
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "airflow_config" . }}
+{{- end }}
+{{- end }}
