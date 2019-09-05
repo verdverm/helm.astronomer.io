@@ -54,6 +54,10 @@ data:
 
     # Airflow deployment configuration
     deployments:
+      # Kubernetes labels to add on each airflow deployment namespace
+      namespaceLabels:
+        platform-release: {{ .Release.Name }}
+
       # These values get passed directly into the airflow helm deployments
       helm:
         # Default airflow version to deploy. This is templated into the default image tag.
@@ -66,25 +70,25 @@ data:
           jwtSigningCertificateSecretName: {{ template "houston.jwtCertificateSecret" . }}
           resources:
             limits:
-              ephemeral-storage: "10Gi"
+              ephemeral-storage: "2Gi"
             requests:
-              ephemeral-storage: "5Gi"
+              ephemeral-storage: "1Gi"
 
         # Worker configuration (applies to Celery and Kubernetes task pods).
         workers:
           resources:
             limits:
-              ephemeral-storage: "10Gi"
+              ephemeral-storage: "2Gi"
             requests:
-              ephemeral-storage: "5Gi"
+              ephemeral-storage: "1Gi"
 
         # Scheduler configuration.
         scheduler:
           resources:
             limits:
-              ephemeral-storage: "10Gi"
+              ephemeral-storage: "2Gi"
             requests:
-              ephemeral-storage: "5Gi"
+              ephemeral-storage: "1Gi"
 
         # Default quotas for airflow deployments.
         quotas:
