@@ -32,11 +32,11 @@ supplementalGroups:
   type: RunAsAny
 users:
 - system:serviceaccount:astronomer:default
-- system:serviceaccount:astronomer:astro-nginx
-- system:serviceaccount:astronomer:astro-commander
-- system:serviceaccount:astronomer:astro-houston-bootstrapper
-- system:serviceaccount:astronomer:astro-prisma-bootstrapper
-- system:serviceaccount:astronomer:astro-prometheus
+- system:serviceaccount:astronomer:{{ .Release.Name }}-nginx
+- system:serviceaccount:astronomer:{{ .Release.Name }}-commander
+- system:serviceaccount:astronomer:{{ .Release.Name }}-houston-bootstrapper
+- system:serviceaccount:astronomer:{{ .Release.Name }}-prisma-bootstrapper
+- system:serviceaccount:astronomer:{{ .Release.Name }}-prometheus
 fsGroup:
   type: RunAsAny
 groups:
