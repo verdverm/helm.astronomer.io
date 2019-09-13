@@ -1,0 +1,50 @@
+
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: astro-anyuid
+  labels:
+    tier: astronomer
+    release: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/description: anyuid provides all features of the restricted SCC
+      but allows users to run with any UID and any GID.
+priority: 10
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: true
+allowPrivilegedContainer: false
+allowedCapabilities: null
+readOnlyRootFilesystem: false
+defaultAddCapabilities: null
+requiredDropCapabilities:
+- MKNOD
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:astronomer:default
+- system:serviceaccount:astronomer:astro-nginx
+- system:serviceaccount:astronomer:astro-commander
+- system:serviceaccount:astronomer:astro-houston-bootstrapper
+- system:serviceaccount:astronomer:astro-prisma-bootstrapper
+- system:serviceaccount:astronomer:astro-prometheus
+fsGroup:
+  type: RunAsAny
+groups:
+- system:cluster-admins
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
