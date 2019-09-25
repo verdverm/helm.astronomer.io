@@ -29,6 +29,8 @@ resources: {}
 # AntiAffinity can be "hard" or "soft"
 antiAffinity: "soft"
 
+serviceType: "LoadBalancer"
+
 # IP address the nginx ingress should bind to
 loadBalancerIP:
 
