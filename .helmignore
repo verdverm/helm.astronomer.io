@@ -26,3 +26,5 @@ bin
 configs
 certs
 secrets
+
+charts/astronomer/templates/commander/tiller-clusterrole.yaml
