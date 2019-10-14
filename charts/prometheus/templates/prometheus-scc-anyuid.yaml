@@ -1,0 +1,47 @@
+{{- if .Values.global.openshift -}}
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: astronomer-prometheus-anyuid
+  labels:
+    tier: astronomer
+    release: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/description: anyuid provides all features of the restricted SCC
+      but allows users to run with any UID and any GID.
+    hlem.sh/hook: "pre-install"
+priority: 1
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: true
+allowPrivilegedContainer: false
+allowedCapabilities: null
+readOnlyRootFilesystem: false
+defaultAddCapabilities: null
+requiredDropCapabilities:
+- MKNOD
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Name }}-prometheus
+fsGroup:
+  type: RunAsAny
+groups:
+- system:cluster-admins
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
+{{- end -}}
