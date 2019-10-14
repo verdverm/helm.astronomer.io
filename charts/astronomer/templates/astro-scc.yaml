@@ -1,4 +1,4 @@
-
+{{- if .Values.global.openshift -}}
 kind: SecurityContextConstraints
 apiVersion: security.openshift.io/v1
 metadata:
@@ -11,7 +11,8 @@ metadata:
   annotations:
     kubernetes.io/description: anyuid provides all features of the restricted SCC
       but allows users to run with any UID and any GID.
-priority: 10
+    hlem.sh/hook: "pre-install"
+priority: 1
 allowHostDirVolumePlugin: false
 allowHostIPC: false
 allowHostNetwork: false
@@ -48,3 +49,4 @@ volumes:
 - persistentVolumeClaim
 - projected
 - secret
+{{- end -}}

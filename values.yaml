@@ -30,6 +30,9 @@ global:
 
   # Enables necessary components for compatibility with Istio Service Mesh
   istioEnabled: false
+
+  # Enables necessary components for installing on Red Hat OpenShift
+  openshift: false
   
   # Set nodeSelector, affinity, and tolerations values for platform and deployment related pods.
   # This allows for separation of platform and airflow pods between kubernetes node pools.
