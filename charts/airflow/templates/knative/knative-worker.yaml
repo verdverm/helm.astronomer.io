@@ -3,30 +3,33 @@
 #################################
 
 # Only deploy these if knative is explicitly enabled.
-{{- if .Values.knative.enabled }}
+{{- if eq .Values.executor "KnativeExecutor" }}
 
 # Loop over the list of queues and create a Service for each.
+{{ $releaseName := .Release.Name }}
+{{ $releaseService := .Release.Service }}
+
 {{- range $i, $config := .Values.knative.queues }}
 kind: Service
 apiVersion: serving.knative.dev/v1alpha1
 metadata:
   # Example: planetary-nebula-1234-knative-queue-default
-  name: {{ printf "%s-knative-queue-%s" .Release.Name $config.name }}
+  name: {{ printf "%s-knative-queue-%s" $releaseName $config.name }}
   labels:
     tier: airflow
     component: worker
-    release: {{ .Release.Name }}
+    release: {{ $releaseName }}
     platform: {{ .Values.platform.release }}
     workspace: {{ .Values.platform.workspace | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    heritage: {{ .Release.Service }}
+    heritage: {{ $releaseService }}
 spec:
   template:
     metadata:
       labels:
         tier: airflow
         component: worker
-        release: {{ .Release.Name }}
+        release: {{ $releaseName }}
         platform: {{ .Values.platform.release }}
         workspace: {{ .Values.platform.workspace | quote }}
       annotations:
@@ -36,7 +39,7 @@ spec:
         - name: worker
           image: {{ template "airflow_image" . }}
           imagePullPolicy: {{ .Values.images.airflow.pullPolicy }}
-          args: ["airflow", "knative_worker"]
+          args: ["airflow", "knative_worker", {{ $config.concurrency }}]
           # Template in the resources for this particular queue
           resources:
 {{ toYaml $config.resources | indent 12 }}
