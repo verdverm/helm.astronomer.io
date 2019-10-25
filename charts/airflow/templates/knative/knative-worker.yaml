@@ -19,9 +19,9 @@ metadata:
     tier: airflow
     component: worker
     release: {{ $releaseName }}
-    platform: {{ .Values.platform.release }}
-    workspace: {{ .Values.platform.workspace | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    platform: {{ $.Values.platform.release }}
+    workspace: {{ $.Values.platform.workspace | quote }}
+    chart: "{{ $.Chart.Name }}-{{ $.Chart.Version }}"
     heritage: {{ $releaseService }}
 spec:
   template:
@@ -30,21 +30,21 @@ spec:
         tier: airflow
         component: worker
         release: {{ $releaseName }}
-        platform: {{ .Values.platform.release }}
-        workspace: {{ .Values.platform.workspace | quote }}
+        platform: {{ $.Values.platform.release }}
+        workspace: {{ $.Values.platform.workspace | quote }}
       annotations:
          autoscaling.knative.dev/target: {{ $config.concurrency }}
     spec:
       containers:
         - name: worker
           image: {{ template "airflow_image" . }}
-          imagePullPolicy: {{ .Values.images.airflow.pullPolicy }}
+          imagePullPolicy: {{ $.Values.images.airflow.pullPolicy }}
           args: ["airflow", "knative_worker", {{ $config.concurrency }}]
           # Template in the resources for this particular queue
           resources:
 {{ toYaml $config.resources | indent 12 }}
           ports:
-            - containerPort: {{ .Values.ports.knativeWorker }}
+            - containerPort: {{ $.Values.ports.knativeWorker }}
           env:
           {{- include "custom_airflow_environment" . | indent 10 }}
           {{- include "standard_airflow_environment" . | indent 10 }}
