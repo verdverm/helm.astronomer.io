@@ -298,6 +298,7 @@ knative:
   enabled: false
 
   # List of queues to create
+<<<<<<< HEAD
   queues:
    - name: default
      concurrency: 10
@@ -308,6 +309,18 @@ knative:
        requests:
          cpu: 2000m
          memory: 5Gi
+=======
+  queues: []
+  # - name: default
+  #   concurrency: 10
+  #   resources:
+  #     limits:
+  #       cpu: 2000m
+  #       memory: 5Gi
+  #     requests:
+  #       cpu: 2000m
+  #       memory: 5Gi
+>>>>>>> 27108c1aae7fcf1c6c0218d74f22879bdbf53124
 
 # All ports used by chart
 ports:

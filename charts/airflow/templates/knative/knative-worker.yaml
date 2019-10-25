@@ -9,6 +9,7 @@
 {{ $releaseName := .Release.Name }}
 {{ $releaseService := .Release.Service }}
 
+# Loop over the list of queues and create a Service for each.
 {{- range $i, $config := .Values.knative.queues }}
 kind: Service
 apiVersion: serving.knative.dev/v1alpha1
@@ -40,6 +41,7 @@ spec:
           image: {{ template "airflow_image" . }}
           imagePullPolicy: {{ $.Values.images.airflow.pullPolicy }}
           args: ["airflow", "knative_worker", {{ $config.concurrency }}]
+
           # Template in the resources for this particular queue
           resources:
 {{ toYaml $config.resources | indent 12 }}
