@@ -6,6 +6,12 @@
 ## the secrets and TLS cert normally.
 ############################
 
+tags:
+  platform: true
+  logging: false
+  monitoring: false
+  kubed: true
+
 global:
   # Base domain for all subdomains exposed through ingress
   baseDomain: local.astronomer-development.com
@@ -29,6 +35,11 @@ astronomer:
       requests:
         cpu: "0m"
         memory: "0Mi"
+
+    config:
+      auth:
+        local:
+          enabled: true
   prisma:
     resources:
       requests:
@@ -90,6 +101,7 @@ prometheus:
 elasticsearch:
   # Configure client nodes
   client:
+    replicas: 1
     resources:
       requests:
         cpu: "0"
@@ -97,6 +109,7 @@ elasticsearch:
 
   # Configure data nodes
   data:
+    replicas: 1
     resources:
       requests:
         cpu: "0"
@@ -104,6 +117,7 @@ elasticsearch:
 
   # Configure master nodes
   master:
+    replicas: 1
     resources:
       requests:
         cpu: "0"
