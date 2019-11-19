@@ -14,6 +14,13 @@ elasticsearch:
   buffer_chunk_limit: 2M
   buffer_queue_limit: 8
 
+s3:
+  enabled: false
+  aws_key_id: ~
+  aws_sec_key: ~
+  s3_bucket: ~
+  s3_region: ~
+
 ports:
   promScrape: 24231
 

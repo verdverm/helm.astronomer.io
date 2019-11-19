@@ -39,3 +39,10 @@ Full image name.
 {{ .Values.images.fluentd.repository }}:{{ .Values.images.fluentd.tag }}
 {{- end -}}
 {{- end -}}
+
+{{- define "fluentd.s3Config" }}
+aws_key_id {{ .Values.s3.aws_key_id }}
+aws_sec_key {{ .Values.s3.aws_sec_key }}
+s3_bucket {{ .Values.s3.s3_bucket }}
+s3_region {{ .Values.s3.s3_region }}
+{{- end }}

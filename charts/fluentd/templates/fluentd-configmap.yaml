@@ -187,14 +187,12 @@ data:
           overflow_action block
         </buffer>
       </store>
+      {{- if .Values.s3.enabled }}
       <store>
         @type s3
         @id s3
         @log_level info
-        aws_key_id
-        aws_sec_key
-        s3_bucket
-        s3_region
+        {{- include "fluentd.s3Config" . | indent 8 }}
         <buffer>
           @type file
           path "/var/log/fluentd-buffers/#{ENV['RELEASE']}-s3-kubernetes.system.buffer"
@@ -209,5 +207,5 @@ data:
           overflow_action block
         </buffer>
       </store>
+      {{- end }}
     </match>
-    
