@@ -18,18 +18,22 @@ rules:
     resources:
       - configmaps
       - endpoints
-      - nodes #Don't need
       - pods
       - secrets
+      {{- if not $singleNamespace }}
+      - nodes
+      {{- end }}
     verbs:
       - list
       - watch
+  {{- if not $singleNamespace }}
   - apiGroups:
       - ""
     resources:
-      - nodes #Don't need
+      - nodes
     verbs:
       - get
+  {{- end }}
   - apiGroups:
       - ""
     resources:
