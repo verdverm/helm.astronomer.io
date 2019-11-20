@@ -17,16 +17,18 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - "nodes" #Don't need
-      - "nodes/proxy" #Don't need
       - "services"
       - "endpoints"
       - "pods"
+      {{- if not $singleNamespace }}
+      - "nodes" #Don't need
+      - "nodes/proxy" #Don't need
+      {{- end }}
     verbs:
       - "get"
       - "list"
       - "watch"
-  {{- if not .Values.global.singleNamespace }}
+  {{- if not $singleNamespace }}
   - nonResourceURLs:
       - "/metrics"
     verbs:
