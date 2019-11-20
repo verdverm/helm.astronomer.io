@@ -18,20 +18,20 @@ rules:
   resources:
   - configmaps
   - secrets
-  - nodes
+  - nodes # Don't need
   - pods
   - services
   - resourcequotas
   - replicationcontrollers
   - limitranges
   - persistentvolumeclaims
-  - persistentvolumes
-  - namespaces
+  - persistentvolumes # May not need / users may not have
+  - namespaces # Don't need
   - endpoints
   verbs: ["list", "watch"]
 - apiGroups: ["extensions"]
   resources:
-  - daemonsets
+  - daemonsets # Don't need
   - deployments
   - replicasets
   verbs: ["list", "watch"]

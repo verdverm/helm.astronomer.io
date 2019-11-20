@@ -18,7 +18,7 @@ rules:
     resources:
       - configmaps
       - endpoints
-      - nodes
+      - nodes #Don't need
       - pods
       - secrets
     verbs:
@@ -27,7 +27,7 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - nodes
+      - nodes #Don't need
     verbs:
       - get
   - apiGroups:

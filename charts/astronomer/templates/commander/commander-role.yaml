@@ -18,7 +18,7 @@ rules:
   resources:
   - secrets
   - persistentvolumeclaims
-  - namespaces
+  - namespaces #Don't need
   verbs:
   - create
   - get
