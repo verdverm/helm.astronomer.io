@@ -21,8 +21,8 @@ rules:
       - "endpoints"
       - "pods"
       {{- if not $singleNamespace }}
-      - "nodes" #Don't need
-      - "nodes/proxy" #Don't need
+      - "nodes"
+      - "nodes/proxy"
       {{- end }}
     verbs:
       - "get"
