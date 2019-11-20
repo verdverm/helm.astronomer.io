@@ -18,7 +18,6 @@ rules:
   resources:
   - configmaps
   - secrets
-  - nodes # Don't need
   - pods
   - services
   - resourcequotas
@@ -26,14 +25,19 @@ rules:
   - limitranges
   - persistentvolumeclaims
   - persistentvolumes # May not need / users may not have
-  - namespaces # Don't need
   - endpoints
+  {{- if not $singleNamespace }}
+  - nodes
+  - namespaces
+  {{- end }}
   verbs: ["list", "watch"]
 - apiGroups: ["extensions"]
   resources:
-  - daemonsets # Don't need
   - deployments
   - replicasets
+  {{- if not $singleNamespace }}
+  - daemonsets
+  {{- end }}
   verbs: ["list", "watch"]
 - apiGroups: ["apps"]
   resources:
