@@ -10,3 +10,4 @@ certs
 repository
 letsencrypt*
 backup
+dev-account.json
