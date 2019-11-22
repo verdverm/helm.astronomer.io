@@ -5,7 +5,7 @@ tolerations: []
 images:
   fluentd:
     repository: astronomerinc/ap-fluentd
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
 
 elasticsearch:
@@ -13,13 +13,19 @@ elasticsearch:
   port: 9200
   buffer_chunk_limit: 2M
   buffer_queue_limit: 8
-
 s3:
   enabled: false
   aws_key_id: ~
   aws_sec_key: ~
   s3_bucket: ~
   s3_region: ~
+livenessProbeConfig:
+  bufferSizeUnhealthy: 8
+  failureThreshold: 3
+  initialDelaySeconds: 30
+  periodSeconds: 15
+  successThreshold: 1
+  timeoutSeconds: 5
 
 ports:
   promScrape: 24231

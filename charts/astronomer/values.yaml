@@ -10,31 +10,31 @@ tolerations: []
 images:
   commander:
     repository: astronomerinc/ap-commander
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   registry:
     repository: astronomerinc/ap-registry
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   houston:
     repository: astronomerinc/ap-houston-api
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   orbit:
     repository: astronomerinc/ap-orbit-ui
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   dbBootstrapper:
     repository: astronomerinc/ap-db-bootstrapper
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   cliInstall:
     repository: astronomerinc/ap-cli-install
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
   prisma:
     repository: astronomerinc/ap-prisma
-    tag: 0.11.0-alpha.1
+    tag: 0.11.0-alpha.5
     pullPolicy: IfNotPresent
 
 orbit:
@@ -95,9 +95,14 @@ houston:
   config: {}
 
   cleanup:
+    # Enable cleanup CronJob
     enabled: true
-    # run at midnight every 15 days
+
+    # Run at midnight every 15 days
     schedule: "0 0 */15 * *"
+
+    # Cleanup deployments older than this many days
+    olderThan: 14
 
 prisma:
   env: []
@@ -149,7 +154,7 @@ registry:
     keyfile: /var/gcs-keyfile/astronomer-gcs-keyfile
     rootdirectory: /
     chunksize: '5242880'
-  
+
   azure:
     enabled: false
     accountname: ~
