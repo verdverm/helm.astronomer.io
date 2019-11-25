@@ -81,7 +81,7 @@ data:
             tier: airflow
             severity: warning
           annotations:
-            summary: {{ printf "%q" "{{ $labels.pod_name }} ({{ $labels.container_name }}) in namespace {{ $labels.namespace }} is getting throttled {{ $value | printf '%.2f' }}% of the time" }}
+            summary: {{ printf "%q" "{{ $labels.pod_name }} ({{ $labels.container_name }}) in namespace {{ $labels.namespace }} is getting throttled {{ $value | printf \"%.2f\" }}% of the time" }}
             description: "In the past 5 minutes, one or more components in the deployment are experiencing CPU throttling."
 
       - name: platform
