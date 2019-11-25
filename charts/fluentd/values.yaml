@@ -15,8 +15,8 @@ elasticsearch:
   buffer_queue_limit: 8
 s3:
   enabled: false
-  aws_key_id: ~
-  aws_sec_key: ~
+  role_arn: ~
+  role_session_name: ~
   s3_bucket: ~
   s3_region: ~
 livenessProbeConfig:
