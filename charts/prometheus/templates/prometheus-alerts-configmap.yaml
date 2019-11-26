@@ -75,7 +75,7 @@ data:
             description: {{ printf "%q" "{{ $labels.deployment }}: the number of pending tasks has been increasing for 30 minutes" }}
 
         - alert: CpuThrottlingInDeployment
-          expr: 100 * (increase(container_cpu_cfs_throttled_periods_total{namespace!="{{ .Release.Name }}", container_name!~".*worker.*|()"}[5m]) / increase(container_cpu_cfs_periods_total{namespace!="{{ .Release.Name }}", container_name!~".*worker.*|()"}[5m])) > 90
+          expr: 100 * (increase(container_cpu_cfs_throttled_periods_total{namespace!="{{ .Release.Name }}", container_name=~".*scheduler.*"}[5m]) / increase(container_cpu_cfs_periods_total{namespace!="{{ .Release.Name }}", container_name=~".*scheduler.*"}[5m])) > 90
           for: 5m
           labels:
             tier: airflow
