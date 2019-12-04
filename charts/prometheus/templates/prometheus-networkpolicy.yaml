@@ -31,6 +31,11 @@ spec:
           tier: monitoring
           component: grafana
           release: {{ .Release.Name }}
+{{- if .Values.adminAirflowNamespace }}
+    - namespaceSelector:
+        matchLabels:
+          namespace: {{ .Values.adminAirflowNamespace }}
+{{- end }}
     ports:
     - protocol: TCP
       port: {{ .Values.ports.http }}

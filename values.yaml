@@ -177,6 +177,11 @@ grafana:
 ## Prometheus configuration
 #################################
 prometheus:
+
+  # Sometimes we may want to allow an Airflow deployment to have access to Prometheus.
+  # This namespace will be whitelisted on Prometheus' NetworkPolicy.
+  adminAirflowNamespace: ~
+
   # Data retention
   retention: 15d
 
