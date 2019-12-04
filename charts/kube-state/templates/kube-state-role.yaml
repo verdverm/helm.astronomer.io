@@ -24,11 +24,11 @@ rules:
   - replicationcontrollers
   - limitranges
   - persistentvolumeclaims
-  - persistentvolumes # May not need / users may not have
   - endpoints
   {{- if not $singleNamespace }}
   - nodes
   - namespaces
+  - persistentvolumes
   {{- end }}
   verbs: ["list", "watch"]
 - apiGroups: ["extensions"]
