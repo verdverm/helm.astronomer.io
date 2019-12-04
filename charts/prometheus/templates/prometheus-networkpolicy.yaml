@@ -31,10 +31,12 @@ spec:
           tier: monitoring
           component: grafana
           release: {{ .Release.Name }}
-{{- if .Values.adminAirflowNamespace }}
-    - namespaceSelector:
+{{- if .Values.adminAirflowReleaseName }}
+    - namespaceSelector: {}
+      podSelector:
         matchLabels:
-          namespace: {{ .Values.adminAirflowNamespace }}
+          tier: airflow
+          release: {{ .Values.adminAirflowReleaseName }}
 {{- end }}
     ports:
     - protocol: TCP

@@ -40,5 +40,5 @@ ports:
   http: 9090
 
 # Sometimes we may want to allow an Airflow deployment to have access to Prometheus.
-# This namespace will be whitelisted on Prometheus' NetworkPolicy.
-adminAirflowNamespace: ~
+# This release name will be whitelisted on Prometheus' NetworkPolicy.
+adminAirflowReleaseName: ~
