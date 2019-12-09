@@ -33,6 +33,10 @@ spec:
       tolerations:
 {{ toYaml (default .Values.global.platformNodePool.tolerations .Values.tolerations) | indent 8 }}
       restartPolicy: Never
+      initContainers:
+        - name: prisma-deployment-rollout-status
+          image: lachlanevenson/k8s-kubectl:v1.15.6
+          args: ["rollout", "status", "-n astronomer", "--watch", "deployment/astronomer-prisma"]
       containers:
         - name: post-upgrade-job
           image: {{ template "houston.image" . }}
