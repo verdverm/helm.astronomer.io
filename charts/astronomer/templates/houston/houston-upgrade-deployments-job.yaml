@@ -33,6 +33,7 @@ spec:
       tolerations:
 {{ toYaml (default .Values.global.platformNodePool.tolerations .Values.tolerations) | indent 8 }}
       restartPolicy: Never
+      serviceAccountName: {{ template "houston.upgraderServiceAccount" . }}
       initContainers:
         - name: prisma-deployment-rollout-status
           image: lachlanevenson/k8s-kubectl:v1.15.6

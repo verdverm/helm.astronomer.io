@@ -127,6 +127,10 @@
 {{ printf "%s-houston-bootstrapper" .Release.Name }}
 {{- end }}
 
+{{ define "houston.upgraderServiceAccount" -}}
+{{ printf "%s-houston-upgrader" .Release.Name }}
+{{- end }}
+
 {{ define "prisma.bootstrapperServiceAccount" -}}
 {{ printf "%s-prisma-bootstrapper" .Release.Name }}
 {{- end }}
