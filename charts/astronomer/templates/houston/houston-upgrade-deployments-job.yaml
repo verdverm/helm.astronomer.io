@@ -38,7 +38,7 @@ spec:
         - name: prisma-deployment-rollout-status
           image: {{ template "houston.image" . }}
           imagePullPolicy: {{ .Values.images.houston.pullPolicy }}
-          args: ["rollout", "status", "-n astronomer", "--watch", "deployment/astronomer-prisma"]
+          command: ["kubectl", "rollout", "status", "-n astronomer", "--watch", "deployment/astronomer-prisma"]
       containers:
         - name: post-upgrade-job
           image: {{ template "houston.image" . }}
