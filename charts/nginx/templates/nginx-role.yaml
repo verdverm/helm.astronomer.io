@@ -51,6 +51,7 @@ rules:
       - get
       - list
       - watch
+  {{- if not $singleNamespace }}
   - apiGroups:
       - networking.k8s.io
     resources:
@@ -78,4 +79,5 @@ rules:
       - ingresses/status
     verbs:
       - update
+  {{- end }}
 {{- end }}
