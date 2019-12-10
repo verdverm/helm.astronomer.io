@@ -127,7 +127,7 @@
 {{ printf "%s-houston-bootstrapper" .Release.Name }}
 {{- end }}
 
-{{ define "houston.upgraderServiceAccount" -}}
+{{ define "houston.updaterServiceAccount" -}}
 {{ printf "%s-houston-upgrader" .Release.Name }}
 {{- end }}
 
