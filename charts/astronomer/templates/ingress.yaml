@@ -51,6 +51,13 @@ spec:
           backend:
             serviceName: {{ .Release.Name }}-orbit
             servicePort: orbit-http
+  - host: app2.{{ .Values.global.baseDomain }}
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: {{ .Release.Name }}-norbit
+            servicePort: norbit-http
   - host: houston.{{ .Values.global.baseDomain }}
     http:
       paths:
