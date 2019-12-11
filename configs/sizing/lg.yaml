@@ -1,0 +1,133 @@
+# This is an example configuration
+# for smaller deployment values.
+
+#################################
+## Astronomer configuration
+#################################
+astronomer:
+  registry:
+    persistence:
+      size: 100Gi
+
+#################################
+## Airflow configuration
+#################################
+airflow:
+  workers:
+    replicas: 1
+    persistence:
+      size: 100Gi
+
+#################################
+## Grafana configuration
+#################################
+# grafana:
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+
+#################################
+## Kibana configuration
+#################################
+# kibana:
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+
+#################################
+## Elasticsearch configuration
+#################################
+elasticsearch:
+  client:
+    replicas: 2
+
+  data:
+    replicas: 5
+    persistence:
+      size: 50Gi
+
+  master:
+    replicas: 3
+    persistence:
+      size: 20Gi
+
+
+#################################
+## Fluentd configuration
+#################################
+# fluentd:
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+
+#################################
+## Kubestate configuration
+#################################
+# kube-state:
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+#################################
+## Kubed configuration
+#################################
+kubed:
+  persistence:
+    size: 10Gi
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+#################################
+## Prometheus configuration
+#################################
+prometheus:
+  persistence:
+    size: 100Gi
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+
+#################################
+## Alertmanager configuration
+#################################
+alertmanager:
+  persistence:
+    size: 2Gi
+#   resources: {}
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+
