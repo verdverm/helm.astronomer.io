@@ -51,7 +51,7 @@ spec:
           backend:
             serviceName: {{ .Release.Name }}-orbit
             servicePort: orbit-http
-  - host: app2.{{ .Values.global.baseDomain }}
+  - host: beta.{{ .Values.global.baseDomain }}
     http:
       paths:
         - path: /
