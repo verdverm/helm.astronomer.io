@@ -17,7 +17,7 @@ data:
       - name: airflow
         rules:
         - alert: AirflowDeploymentUnhealthy
-          expr: sum by(release) (kube_pod_container_status_running{namespace=~".*-.*-.*-[0-9]{4}", pod=~".*-.*-[0-9]{4}-.*"}) - count by(release) (kube_pod_container_status_running{namespace=~".*-.*-.*-[0-9]{4}", pod=~".*-.*-[0-9]{4}-.*"}) < 0
+          expr: sum by(release) (kube_pod_container_status_running{namespace=~".*-.*-.*-[0-9]{4}",pod=~".*-.*-[0-9]{4}-.*",container=~".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)"}) - count by(release) (kube_pod_container_status_running{namespace=~".*-.*-.*-[0-9]{4}",pod=~".*-.*-[0-9]{4}-.*",container=~".*(scheduler|scheduler-gc|webserver|worker|statsd|pgbouncer|metrics-exporter|redis|flower)"}) < 0
           for: 15m # Rough number but should be enough to clear deployments with a reasonable amount of workers
           labels:
             tier: airflow
@@ -73,16 +73,6 @@ data:
           annotations:
             summary: {{ printf "%q" "{{ $labels.deployment }} is creating tasks faster than it's clearing them." }}
             description: {{ printf "%q" "{{ $labels.deployment }}: the number of pending tasks has been increasing for 30 minutes" }}
-
-        - alert: CpuThrottlingInDeployment
-          expr: 100 * (increase(container_cpu_cfs_throttled_periods_total{namespace!="{{ .Release.Name }}", container_name!~".*worker.*|()"}[5m]) / increase(container_cpu_cfs_periods_total{namespace!="{{ .Release.Name }}", container_name!~".*worker.*|()"}[5m])) > 75
-          for: 5m
-          labels:
-            tier: airflow
-            severity: warning
-          annotations:
-            summary: {{ printf "%q" "{{ $labels.pod_name }} ({{ $labels.container_name }}) in namespace {{ $labels.namespace }} is getting throttled {{ $value }}% of the time" }}
-            description: "In the past 5 minutes, one or more components in the deployment are experiencing CPU throttling."
 
       - name: platform
         rules:

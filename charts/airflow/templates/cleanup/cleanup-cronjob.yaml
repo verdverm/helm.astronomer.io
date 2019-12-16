@@ -19,11 +19,18 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 12 }}
+          affinity:
+{{ toYaml .Values.affinity | indent 12 }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 12 }}
+          serviceAccountName: {{ .Release.Name }}-cleanup-serviceaccount
           containers:
             - name: airflow-cleanup-pods
               image: {{ template "airflow_image" . }}
               imagePullPolicy: {{ .Values.images.airflow.pullPolicy }}
-              command: ["airflow-cleanup-pods --namespace={{ .Release.Name }}"]
+              args: ["airflow-cleanup-pods", "--namespace={{ .Release.Namespace }}"]
               env:
               {{- include "custom_airflow_environment" . | indent 12 }}
               {{- include "standard_airflow_environment" . | indent 12 }}
